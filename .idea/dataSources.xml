@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="db" uuid="38347fad-e836-4745-bcab-08ac8d27ab2d">
+    <data-source source="LOCAL" name="test" uuid="6fdf02b6-8a11-4a3e-99a2-4c9dc979d9b4">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\KOUJYO_TOUKATSU\PycharmProjects\sngfa\db.sqlite3</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\Users\KOUJYO_TOUKATSU\PycharmProjects\sngfa\kadoumap\test.db</jdbc-url>
       <driver-properties>
         <property name="enable_load_extension" value="true" />
       </driver-properties>

@@ -21,6 +21,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 # from django.views.generic import TemplateView
 from django.http import HttpResponse
+
+
 # from info.models import *
 
 
@@ -38,11 +40,17 @@ from django.http import HttpResponse
 def index(request):
     from django.db import connection
     with connection.cursor() as cursor:
-        cursor.execute("SELECT ope_date,ope_time,ope_state,ope_machine FROM kadoumap_OpeData")
+        cursor.execute("SELECT ope_datetime,ope_state,ope_machine FROM kadoumap_OpeData")
         row = cursor.fetchall()
         print('◆　１　◆◆◆◆◆◆◆◆◆◆◆◆◆')
         print(row)
-        return HttpResponse(row)
+        hoge = testfuga()
+        return HttpResponse(hoge)
+
+
+def testfuga():
+    fuga = "hogehoge"
+    return (fuga)
 
 
 def detail(request, question_id):

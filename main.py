@@ -1,15 +1,33 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+from django.conf import settings
+import django
 import RPi.GPIO as GPIO
 import datetime
 import time
 import csv
 
+# from statsmodels.genmod.families.links import sqrt
+
+
+settings.configure(
+    DATABASES={
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': './db.sqlite3',
+        }
+    },
+    INSTALLED_APPS=['kadoumap.apps.KadoumapConfig']
+)
+django.setup()
+
+from kadoumap.models import OpeData
+
 PIN_IN = 17
 PIN_OUT = 25
 machine_name = 'test01'
-csvfile_path='/home/pi/dev/test.csv'
+csvfile_path = '/home/pi/dev/operationdata.csv'
+
 
 # CSVファイルの新規作成
 # 既存ファイｒは上書きされる。
@@ -23,16 +41,18 @@ def make_new_csv():
 
 
 # CSVファイルにデータを追記する。
-# また、2秒間ランプを消灯、処理を停止する。
-def csv_output(now_state):
-    GPIO.output(PIN_OUT, GPIO.LOW)
-    datnow = datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+def csv_output(new_state, datnow):
     with open(csvfile_path, 'a') as f:
         writer = csv.writer(f)
-        writer.writerow([str(datnow), str(now_state), machine_name])
-    print(str(datnow) + ' ' + str(now_state) + ' ' + machine_name)
-    time.sleep(2)
-    GPIO.output(PIN_OUT, GPIO.HIGH)
+        writer.writerow([str(datnow), str(new_state), machine_name])
+    print(str(datnow) + ' ' + str(new_state) + ' ' + machine_name)
+    return 0
+
+
+# SQLiteにデータをINSERTする。
+def sqlite_insert(new_state, datnow):
+    d = OpeData(ope_datetime=str(datnow), ope_state=str(new_state), ope_machine=machine_name)
+    d.save()
     return 0
 
 
@@ -50,15 +70,32 @@ try:
     old_state = 2
 
     while True:
+        # ステータス取得
         if GPIO.input(PIN_IN) == GPIO.HIGH:
             new_state = 1
         else:
             new_state = 0
 
+        # ステータスに変化があるか比較
         if old_state != new_state:
-            csv_output(new_state)
+            # ランプ消灯（処理受付停止サイン）
+            GPIO.output(PIN_OUT, GPIO.LOW)
+
+            datnow = datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+            # CSVに出力
+            csv_output(new_state, datnow)
+            # SQLiteにINSERT
+            sqlite_insert(new_state, datnow)
+
+            # 新しいステータスを次回比較用に退避
             old_state = new_state
 
+            # チャタリング対策に処理を停止。
+            time.sleep(2)
+            # ランプ点灯
+            GPIO.output(PIN_OUT, GPIO.HIGH)
+
+        # ステータス取得間隔
         time.sleep(0.1)
 except KeyboardInterrupt:
     pass
