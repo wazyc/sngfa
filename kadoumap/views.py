@@ -39,11 +39,9 @@ def index(request):
     from django.db import connection
     with connection.cursor() as cursor:
         cursor.execute("SELECT ope_date,ope_time,ope_state,ope_machine FROM kadoumap_OpeData")
-        row = cursor.fetchone()
+        row = cursor.fetchall()
         print('◆　１　◆◆◆◆◆◆◆◆◆◆◆◆◆')
         print(row)
-        print(type(row))
-        print('◆　２　◆◆◆◆◆◆◆◆◆◆◆◆◆')
         return HttpResponse(row)
 
 
