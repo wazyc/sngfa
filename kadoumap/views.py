@@ -1,5 +1,7 @@
-# from django.shortcuts import render
-# from django.http import HttpResponse
+from django.shortcuts import render
+from django.http import HttpResponse
+from django.template import loader
+from .models import OpeData
 
 # Create your views here.
 # def index(request):
@@ -43,18 +45,26 @@ def index(request):
         cursor.execute("SELECT ope_datetime,ope_state,ope_machine FROM kadoumap_OpeData")
         row = cursor.fetchall()
         print('◆　１　◆◆◆◆◆◆◆◆◆◆◆◆◆')
-        print(row)
-        hoge = testfuga()
+        print(type(row))
+        hoge = 'DBから取得<br>'
+        for datalist in row:
+            print('------')
+            for datatuple in datalist:
+                print(datatuple)
+                hoge = hoge + datatuple + '　　'
+            hoge = hoge + '<br>'
         return HttpResponse(hoge)
 
 
-def testfuga():
-    fuga = "hogehoge"
-    return (fuga)
-
-
-def detail(request, question_id):
-    return HttpResponse("You're looking at question %s." % question_id)
+def all(request):
+    print('views.all==================')
+    all_opedata_list = OpeData.objects.all().order_by('ope_datetime')
+    print(all_opedata_list)
+    template = loader.get_template('kadoumap/all.html')
+    context = {
+        'all_opedata_list': all_opedata_list,
+    }
+    return HttpResponse(template.render(context, request))
 
 
 def results(request, question_id):

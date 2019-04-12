@@ -21,7 +21,6 @@ settings.configure(
 )
 django.setup()
 
-from kadoumap.models import OpeData
 
 PIN_IN = 17
 PIN_OUT = 25

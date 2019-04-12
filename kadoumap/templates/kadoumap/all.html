@@ -1,0 +1,9 @@
+{% if all_opedata_list %}
+    <ul>
+    {% for opedata in all_opedata_list %}
+       <li><a> {{ opedata.ope_datetime }} {{ opedata.ope_state }} {{ opedata.ope_machine }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <P>NO</P>
+{% endif %}
