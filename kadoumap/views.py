@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 from django.template import loader
 from .models import OpeData
@@ -57,20 +57,18 @@ def index(request):
 
 
 def all(request):
-    print('views.all==================')
+    print('views.all===============================')
     all_opedata_list = OpeData.objects.all().order_by('ope_datetime')
     print(all_opedata_list)
-    template = loader.get_template('kadoumap/all.html')
-    context = {
-        'all_opedata_list': all_opedata_list,
-    }
-    return HttpResponse(template.render(context, request))
+    # template = loader.get_template('kadoumap/all.html')
+    context = {'all_opedata_list': all_opedata_list, }
+    # return HttpResponse(template.render(context, request))
+    return render(request, 'kadoumap/all.html', context)
 
 
-def results(request, question_id):
-    response = "You're looking at the results of question %s."
-    return HttpResponse(response % question_id)
+def detail(request, machine):
+    print('views.detail===============================' + machine)
+    machine_opedata_list = get_list_or_404(OpeData, ope_machine=machine)
+    return render(request, 'kadoumap/detail.html', {'machine_opedata_list': machine_opedata_list})
 
 
-def vote(request, question_id):
-    return HttpResponse("You're voting on question %s." % question_id)

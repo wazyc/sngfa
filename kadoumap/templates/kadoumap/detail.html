@@ -1,0 +1,5 @@
+<ul>
+{% for opedata in machine_opedata_list %}
+   <li><a> {{ opedata.ope_datetime }} {{ opedata.ope_state }} {{ opedata.ope_machine }}</a></li>
+{% endfor %}
+</ul>
