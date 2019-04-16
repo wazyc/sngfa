@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+
+{% block body %}
+<ul>
+{% for opedata in opedata_list %}
+    {% if opedata.2 == '1' %}
+        <a href="{% url 'detail' opedata.1 %}"> {{ opedata.1 }}</a> <font color="#228b22">稼働中</font>
+    {% else %}
+        <a href="{% url 'detail' opedata.1 %}"> {{ opedata.1 }}</a> <font color="#cd5c5c">停止中</font>
+    {% endif %}
+    <br>
+{% endfor %}
+</ul>
+<ul>
+<a href="alldata/">AllData</a>
+</ul>
+{% endblock %}
+

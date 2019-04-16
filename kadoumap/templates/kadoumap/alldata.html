@@ -1,3 +1,7 @@
+{% extends "base.html" %}
+
+
+{% block body %}
 {% if all_opedata_list %}
     <ul>
     {% for opedata in all_opedata_list %}
@@ -7,3 +11,7 @@
 {% else %}
     <P>NO</P>
 {% endif %}
+<br>
+
+　　　　　　　　　　　　　　　<a href="../../kadoumap">back</a>
+{% endblock %}

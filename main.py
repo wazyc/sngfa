@@ -28,8 +28,7 @@ machine_name = 'test01'
 csvfile_path = '/home/pi/dev/operationdata.csv'
 
 
-# CSVファイルの新規作成
-# 既存ファイｒは上書きされる。
+# CSVファイルをリネームし、新規作成　◆TODO リネーム部分未作成
 def make_new_csv():
     with open(csvfile_path, 'w') as new_csv_file:
         fieldnames = ['time', 'state', 'machine']
@@ -63,8 +62,8 @@ try:
     GPIO.setup(PIN_IN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     GPIO.setup(PIN_OUT, GPIO.OUT)
 
-    # CSV新規作成
-    make_new_csv()
+    # CSVリネームし、新規作成
+    # make_new_csv()
     # 初期値
     old_state = 2
 

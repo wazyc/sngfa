@@ -1,5 +1,22 @@
-<ul>
-{% for opedata in machine_opedata_list %}
-   <li><a> {{ opedata.ope_datetime }} {{ opedata.ope_state }} {{ opedata.ope_machine }}</a></li>
-{% endfor %}
-</ul>
+{% extends "base.html" %}
+
+{% block body %}
+    <ul>
+    {% for opedata in machine_opedata_list|slice:"0:1" %}
+        {{ opedata.ope_machine }} ログ
+    {% empty %}
+        データなし
+    {% endfor %}
+    </ul>
+
+    <ul>
+    {% for opedata in machine_opedata_list %}
+       <li><a> {{ opedata.ope_datetime }} {{ opedata.ope_state }} {{ opedata.ope_machine }}</a></li>
+    {% endfor %}
+    </ul>
+
+    <br>
+
+    　　　　　　　　　　　　　　　<a href="../../kadoumap">back</a>
+
+{% endblock %}
