@@ -2,18 +2,40 @@
 
 
 {% block body %}
-<ul>
-{% for opedata in opedata_list %}
-    {% if opedata.2 == '1' %}
-        <a href="{% url 'detail' opedata.1 %}"> {{ opedata.1 }}</a> <font color="#228b22">稼働中</font>
-    {% else %}
-        <a href="{% url 'detail' opedata.1 %}"> {{ opedata.1 }}</a> <font color="#cd5c5c">停止中</font>
-    {% endif %}
+
+    <table class="table table-sm table-bordered table-hover">
+        <thead>
+            <th scope="col">設備名</th>
+            <th scope="col">状態</th>
+        </thead>
+
+        <tbody>
+            {% for opedata in opedata_list %}
+                <tr>
+
+                    <th scope="row">
+                        <a href="{% url 'detail' opedata.1 %}"> <button type="button" class="btn btn-link">{{ opedata.1 }}</button></a>
+                    </th>
+
+                    <td>
+                        <!-- ステータス判断 -->
+                        {% if opedata.2 == '1' %}
+                            <p class="text-left text-success">稼働中</p>
+                        {% else %}
+                            <p class="text-left text-danger">停止中</p>
+                        {% endif %}
+                    </td>
+
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     <br>
-{% endfor %}
-</ul>
-<ul>
-<a href="alldata/">AllData</a>
-</ul>
+    <div>
+        <a href="alldata/">
+            <button type="button" class="btn btn-link">AllData</button>
+        </a>
+    </div>
+
 {% endblock %}
 

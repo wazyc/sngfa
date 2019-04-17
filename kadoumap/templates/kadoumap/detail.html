@@ -1,22 +1,38 @@
 {% extends "base.html" %}
 
 {% block body %}
-    <ul>
+
+    <h5>
     {% for opedata in machine_opedata_list|slice:"0:1" %}
         {{ opedata.ope_machine }} ログ
     {% empty %}
         データなし
     {% endfor %}
-    </ul>
+    </h5>
 
-    <ul>
-    {% for opedata in machine_opedata_list %}
-       <li><a> {{ opedata.ope_datetime }} {{ opedata.ope_state }} {{ opedata.ope_machine }}</a></li>
-    {% endfor %}
-    </ul>
+    <table class="table table-sm table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">日時</th>
+                <th scope="col">状態</th>
+                <th scope="col">設備</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for opedata in machine_opedata_list %}
+                <tr class="font-weight-light">
+                    <th scope="row">{{ opedata.ope_datetime }}</th>
+                    <th scope="row">{{ opedata.ope_state }}</th>
+                    <th scope="row">{{ opedata.ope_machine }}</th>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
-    <br>
-
-    　　　　　　　　　　　　　　　<a href="../../kadoumap">back</a>
-
+    <div class="float-right">
+        <a href="../../kadoumap">
+            <button type="button" class="btn btn-primary">back</button>
+        </a>
+    </div>
+    　　　　　　　　　　　　　　　
 {% endblock %}
